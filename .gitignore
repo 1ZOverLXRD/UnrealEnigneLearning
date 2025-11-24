@@ -1,0 +1,11 @@
+*
+
+# 允许 Source/
+!Source/
+!Source/**
+
+# 允许 .uproject
+!*.uproject
+
+# 允许 .gitignore
+!.gitignore
