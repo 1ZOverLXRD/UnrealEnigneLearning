@@ -17,9 +17,12 @@ class LEARNING_API ADelegatesOverLap : public AActor
 public:	
 	ADelegatesOverLap();
 	virtual void Tick(float DeltaTime) override;
-	//要使用委托就必须是UFUNCTION
+	//瑕佷娇鐢ㄥ鎵樺氨蹇呴』鏄疷FUNCTION
 	UFUNCTION()
 	void OnSphereOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	UFUNCTION()
+	void OnComponentEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

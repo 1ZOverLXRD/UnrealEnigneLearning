@@ -6,6 +6,8 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Characters/OverlxrdAnimInstance.h"
+#include "Items/Weapons/Weapon_Swrod.h"
 
 void AOverLxrdCharacter::AddComponentAndInit()
 {
@@ -50,6 +52,7 @@ void AOverLxrdCharacter::BindAxisInputs(UInputComponent* PlayerInputComponent)
 	PlayerInputComponent->BindAxis(FName("LookUp"),this,&AOverLxrdCharacter::onLookUp);
 	PlayerInputComponent->BindAxis(FName("MoveLOR"),this,&AOverLxrdCharacter::onMoveLOR);
 	PlayerInputComponent->BindAction(FName("Jump"), EInputEvent::IE_Pressed, this, &ACharacter::Jump);
+	PlayerInputComponent->BindAction(FName("PickUpWeapon"), EInputEvent::IE_Pressed, this, &AOverLxrdCharacter::OnPickupItem);
 }
 
 void AOverLxrdCharacter::onMove_Forward(float Value)
@@ -67,7 +70,7 @@ void AOverLxrdCharacter::onMove_Forward(float Value)
 			EAxis::Z → 表示「上向（Up）」方向
 		*/
 		const auto Direction = FRotationMatrix{ YawRotation }.GetUnitAxis(EAxis::X);//获取前方向量
-		AddMovementInput(Direction, Value*SprintSpeed);
+		AddMovementInput(Direction, Value);
 	}
 }
 
@@ -93,6 +96,25 @@ void AOverLxrdCharacter::onMoveLOR(float Value)
 		const FRotator YawRotation{ 0.f,GetControlRotation().Yaw,0.f };//只要角色的偏航角
 		const auto Direction = FRotationMatrix{ YawRotation }.GetUnitAxis(EAxis::Y);//获取Right向量
 		AddMovementInput(Direction, Value);
+	}
+}
+
+void AOverLxrdCharacter::OnPickupItem()
+{
+	if (AroundWeapon)
+	{
+
+		if (GetMesh()&& GetMesh()->GetAnimInstance()) {
+			auto anim = Cast<UOverlxrdAnimInstance>(GetMesh()->GetAnimInstance());
+			if (anim) {
+				anim->SetCharacterState(ECharacterState::ECS_EquippedOneHandWeapon);
+			}
+		}
+		// 执行拾取武器的逻辑 
+		CharacterState = ECharacterState::ECS_EquippedOneHandWeapon;
+		AroundWeapon->SetFloating(false);//停止浮动
+		FAttachmentTransformRules transRules{ EAttachmentRule::SnapToTarget,true };
+		auto weapon = GetAroundWeapon()->AttachToComponent(GetMesh(), transRules, FName("RightHand_Socket"));
 	}
 }
 

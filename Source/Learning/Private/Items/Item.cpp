@@ -18,7 +18,7 @@ void AItem::selfRatate(float DeltaTime)
 AItem::AItem()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	//ÉèÖÃÕâ¸öActorÃ¿Ö¡µ÷ÓÃTick()º¯Êı¡£Èç¹û²»ĞèÒª£¬¿ÉÒÔ¹Ø±ÕÒÔÌá¸ßĞÔÄÜ¡£
+	//è®¾ç½®è¿™ä¸ªActoræ¯å¸§è°ƒç”¨Tick()å‡½æ•°ã€‚å¦‚æœä¸éœ€è¦ï¼Œå¯ä»¥å…³é—­ä»¥æé«˜æ€§èƒ½ã€‚
 	PrimaryActorTick.bCanEverTick = true;
 }
 
@@ -27,27 +27,27 @@ void AItem::BeginPlay()
 {
 	Super::BeginPlay();
 	/*UELOG
-	*p1:CategoryName:ÈÕÖ¾Àà±ğ£¨Ò²¿ÉÒÔ×Ô¶¨Òå£©
-		LogTemp	ÁÙÊ±ÈÕÖ¾£¨µ÷ÊÔÓÃ£©
-		LogBlueprint	À¶Í¼Ïà¹ØÈÕÖ¾
-		LogNet	ÍøÂçÈÕÖ¾
-		LogPhysics	ÎïÀíÏµÍ³ÈÕÖ¾
-	p2:ÈÕÖ¾¼¶±ğ
-		ÈÕÖ¾µÈ¼¶£¨Verbose¡¢Warning¡¢Error µÈ£©
-	P3 ÄÚÈİ¿É¸ñÊ½»¯
+	*p1:CategoryName:æ—¥å¿—ç±»åˆ«ï¼ˆä¹Ÿå¯ä»¥è‡ªå®šä¹‰ï¼‰
+		LogTemp	ä¸´æ—¶æ—¥å¿—ï¼ˆè°ƒè¯•ç”¨ï¼‰
+		LogBlueprint	è“å›¾ç›¸å…³æ—¥å¿—
+		LogNet	ç½‘ç»œæ—¥å¿—
+		LogPhysics	ç‰©ç†ç³»ç»Ÿæ—¥å¿—
+	p2:æ—¥å¿—çº§åˆ«
+		æ—¥å¿—ç­‰çº§ï¼ˆVerboseã€Warningã€Error ç­‰ï¼‰
+	P3 å†…å®¹å¯æ ¼å¼åŒ–
 	*/
-	//Text ³£Á¿×Ö·û´®×ªunicode
+	//Text å¸¸é‡å­—ç¬¦ä¸²è½¬unicode
 	UE_LOG(LogTemp, Warning, TEXT("OverLxrd on CPP-BeginPlay"));
-	if (GEngine) {//ÅĞ¶ÏGEngineÊÇ·ñÎª¿Õ,µ«ÊÇÍ¨³£beginplay¶¼ÔÚ³õÊ¼»¯ºóµ÷ÓÃ,ËùÒÔGEngineÒ»°ã²»»áÎª¿Õ
+	if (GEngine) {//åˆ¤æ–­GEngineæ˜¯å¦ä¸ºç©º,ä½†æ˜¯é€šå¸¸beginplayéƒ½åœ¨åˆå§‹åŒ–åè°ƒç”¨,æ‰€ä»¥GEngineä¸€èˆ¬ä¸ä¼šä¸ºç©º
 		GEngine->AddOnScreenDebugMessage(0, 60.0f, FColor::Cyan, FString("OverLxrd on C++-[ScreenDebug]")); 
 	}
 	auto actLoc = GetActorLocation();
 	actLoc.Z += 50;
-	//Èç¹ûbSweepÉèÖÃtrueĞŞ¸ÄÎ»ÖÃÊ±Èç¹ûÓĞÅö×²Ìå×èµ²»áÍ£Ö¹ÒÆ¶¯
+	//å¦‚æœbSweepè®¾ç½®trueä¿®æ”¹ä½ç½®æ—¶å¦‚æœæœ‰ç¢°æ’ä½“é˜»æŒ¡ä¼šåœæ­¢ç§»åŠ¨
 	SetActorLocation(actLoc);
-	//bPersistentLines µÄÒâË¼ÊÇ ÊÇ·ñÊ¹µ÷ÊÔÍ¼ĞÎÓÀ¾Ã´æÔÚ
-	//true:Ëü½« ±£³Ö¿É¼û(ºÃÏñÒ»Ö±´æÔÚ£¬³ı·ÇÊÖ¶¯Çå³ı?)
-	//false:until lifetime expires (³ÖĞøÊ±¼äµ½ÆÚºóÏûÊ§)
+	//bPersistentLines çš„æ„æ€æ˜¯ æ˜¯å¦ä½¿è°ƒè¯•å›¾å½¢æ°¸ä¹…å­˜åœ¨
+	//true:å®ƒå°† ä¿æŒå¯è§(å¥½åƒä¸€ç›´å­˜åœ¨ï¼Œé™¤éæ‰‹åŠ¨æ¸…é™¤?)
+	//false:until lifetime expires (æŒç»­æ—¶é—´åˆ°æœŸåæ¶ˆå¤±)
 	DrawDebugSphere(GetWorld(), GetActorLocation(), 32.0f, 12, FColor::Cyan, false, 3.0f);
 	DrawDebugLine(GetWorld(), GetActorLocation(), GetActorLocation()+GetActorForwardVector()*100, FColor::Red, true, 30.0f, 0, 1.0f);
 	DrawDebugPoint(GetWorld(), GetActorLocation(), 10.f, FColor::Green, false, 5.f);
@@ -62,9 +62,9 @@ void AItem::Tick(float DeltaTime)
 	if (GEngine) {
 		/*
 		FString GetName()
-			Òª»ñÈ¡FStringµÄÄÚÈİĞèÒªÊ¹ÓÃ*²Ù×÷·û£¬ÀàËÆString.c_str()
+			è¦è·å–FStringçš„å†…å®¹éœ€è¦ä½¿ç”¨*æ“ä½œç¬¦ï¼Œç±»ä¼¼String.c_str()
 
-		FString::PrintfÀàËÆÓÚCÓïÑÔÖĞµÄsprintfº¯Êı£¬ÓÃÓÚ¸ñÊ½»¯×Ö·û´®¡£
+		FString::Printfç±»ä¼¼äºCè¯­è¨€ä¸­çš„sprintfå‡½æ•°ï¼Œç”¨äºæ ¼å¼åŒ–å­—ç¬¦ä¸²ã€‚
 		*/
 		auto msg = FString::Printf(TEXT("OverLxrd on CPP-Tick-Screen[%s-Deltatime:%f]"), *GetName(), DeltaTime);
 		GEngine->AddOnScreenDebugMessage(0, 60.0f, FColor::Cyan, msg);
@@ -73,9 +73,9 @@ void AItem::Tick(float DeltaTime)
 	selfRatate(DeltaTime);
 
 	FVector Start = GetActorLocation();
-	FVector End = Start + GetActorForwardVector() * 100.0f; // ÉäÏß³¤¶È 200
+	FVector End = Start + GetActorForwardVector() * 100.0f; // å°„çº¿é•¿åº¦ 200
 
-	// »æÖÆµ÷ÊÔÉäÏß£º²»³Ö¾Ã»¯ (false)£¬ÏÔÊ¾ 0.1 Ãë
+	// ç»˜åˆ¶è°ƒè¯•å°„çº¿ï¼šä¸æŒä¹…åŒ– (false)ï¼Œæ˜¾ç¤º 0.1 ç§’
 	DrawDebugLine(GetWorld(), Start, End, FColor{ 255,192,203 }, false, 0.0F, 0, 3.0f);
 }
 

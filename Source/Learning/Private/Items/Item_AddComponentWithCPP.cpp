@@ -8,16 +8,16 @@ AItem_AddComponentWithCPP::AItem_AddComponentWithCPP()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	/*CreateDefaultSubobject:×¨ÃÅÓÃÓÚÔÚ UObject¡¢AActorµÄ¹¹Ôìº¯ÊıÖĞ´´½¨ºÍ³õÊ¼»¯×é¼ş
-		*parm:Äú±ØĞëÌá¹©Ò»¸öÎ¨Ò»µÄÃû³Æ£¨Èç TEXT("RootMesh")£©¡£Õâ¸öÃû³ÆÊÇ $\text{FName}$ ÀàĞÍ£¬ÓÃÓÚ UE µÄÄÚ²¿²éÕÒºÍ¹şÏ£¡£ÔÚÍ¬Ò»¸ö $\text{UObject}$ ÀàÖĞ£¬ËùÓĞ
+	/*CreateDefaultSubobject:ä¸“é—¨ç”¨äºåœ¨ UObjectã€AActorçš„æ„é€ å‡½æ•°ä¸­åˆ›å»ºå’Œåˆå§‹åŒ–ç»„ä»¶
+		*parm:æ‚¨å¿…é¡»æä¾›ä¸€ä¸ªå”¯ä¸€çš„åç§°ï¼ˆå¦‚ TEXT("RootMesh")ï¼‰ã€‚è¿™ä¸ªåç§°æ˜¯ $\text{FName}$ ç±»å‹ï¼Œç”¨äº UE çš„å†…éƒ¨æŸ¥æ‰¾å’Œå“ˆå¸Œã€‚åœ¨åŒä¸€ä¸ª $\text{UObject}$ ç±»ä¸­ï¼Œæ‰€æœ‰
 	*/
 	this->meshComponent=CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ItemStaticMeshApexPathFinder"));
-	RootComponent = this->meshComponent;//½«¸ù×é¼şÉèÖÃÎª meshComponent£¬²»ÔÙÎªdeafultScreenRootComponentÁË
+	RootComponent = this->meshComponent;//å°†æ ¹ç»„ä»¶è®¾ç½®ä¸º meshComponentï¼Œä¸å†ä¸ºdeafultScreenRootComponentäº†
 	
 	static ConstructorHelpers::FObjectFinder<UStaticMesh> MeshAssetFinder(TEXT("/Script/Engine.StaticMesh'/Game/MYFBX/ApexPathfinder/SM_PathFinder.SM_PathFinder'"));
 	if (MeshAssetFinder.Succeeded())
 	{
-		// 3. ½«ÕÒµ½µÄ Static Mesh ×Ê²úÉèÖÃ¸ø×é¼ş
+		// 3. å°†æ‰¾åˆ°çš„ Static Mesh èµ„äº§è®¾ç½®ç»™ç»„ä»¶
 		this->meshComponent->SetStaticMesh(MeshAssetFinder.Object);
 	}
 	else

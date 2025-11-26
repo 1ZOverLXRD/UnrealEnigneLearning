@@ -42,9 +42,7 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	//����Asixӳ��(�� ��Ŀ����->����->����->��ӳ�� ������)
-	//���Ų���:���� 1����ת���� 2.�Ŵ���С�ƶ��ٶ�
-	//��������Ϊvoid
+	//要在UE中设置Axis映射（项目设置-输入） 方法必须为void
 	void MoveForward(float Value);
 	void Turn(float Value);
 	void LookUp(float Value);

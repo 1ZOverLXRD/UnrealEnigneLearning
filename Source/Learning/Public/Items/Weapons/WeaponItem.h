@@ -6,24 +6,44 @@
 #include "GameFramework/Character.h"
 #include "WeaponItem.generated.h"
 
+class UStaticMeshComponent;
+class USphereComponent;
 UCLASS()
-class LEARNING_API AWeaponItem : public ACharacter
+class LEARNING_API AWeaponItem : public AActor
 {
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this character's properties
 	AWeaponItem();
-
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-public:	
-	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	UFUNCTION()
+	virtual void OnSphereOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	UFUNCTION()
+	virtual void OnSphereEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
+	FORCEINLINE void SetFloating(bool bNewFloating) { bFloating = bNewFloating; }
+private:
+	void LoopFloating(float DeltaTime);
+	UPROPERTY()
+	float RunningTime = 0.f;
+	UPROPERTY()
+	FVector InitialLocation;
+protected:
+	virtual void BeginPlay() override;
+
+	UPROPERTY(BlueprintReadWrite, Category = Weapon)
+	bool bFloating = true;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category=Weapon)
+	UStaticMeshComponent* WeaponMesh;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Weapon)
+	USphereComponent* PickupSphere;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Weapon)
+	float Amplitude=70.f;//上下浮动幅度
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Weapon)
+	float Frequency = 3.f;    // 频率（值越大浮动越快）
 };

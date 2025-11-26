@@ -4,15 +4,18 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "CharacterHandState.h"
 #include "OverLxrdCharacter.generated.h"
 
 
+
+class AWeaponItem;
 UCLASS()
 class LEARNING_API AOverLxrdCharacter : public ACharacter
 {
 	GENERATED_BODY()
 private:
-	//Ìí¼Ó×é¼ş²¢³õÊ¼»¯×é¼ş
+	//æ·»åŠ ç»„ä»¶å¹¶åˆå§‹åŒ–ç»„ä»¶
 	void AddComponentAndInit();
 
 	UPROPERTY(VisibleAnywhere)
@@ -20,24 +23,37 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	class UCameraComponent* CHR_Camera_SA;
+
+	//è§’è‰²å‘¨å›´çš„æ­¦å™¨
+	UPROPERTY(VisibleAnywhere, Category = Weapon)
+	AWeaponItem* AroundWeapon;
+
+	ECharacterState CharacterState=ECharacterState::ECS_Unequipped;
 public:
+	FORCEINLINE ECharacterState GetCharacterState() const { return CharacterState; }
+
+
+
 	AOverLxrdCharacter();
 	virtual void Tick(float DeltaTime) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-	
+	//FORCEINLINE å¼ºåˆ¶å†…è”å‡½æ•°
+	FORCEINLINE void SetAroundWeapon(AWeaponItem* NewWeapon) { AroundWeapon = NewWeapon; }
+	FORCEINLINE AWeaponItem* GetAroundWeapon() const { return AroundWeapon; }
 protected:
-	UPROPERTY(VisibleInstanceOnly, Category =OverLxrd)
-	float SprintSpeed = 1.f;
+
 
 
 	virtual void BeginPlay() override;
 	void BindAxisInputs(class UInputComponent* PlayerInputComponent);
-	//Ç°½øº¯Êı
+	//å‰è¿›å‡½æ•°
 	void onMove_Forward(float Value);
-	//´¦ÀíÊÓ½Ç×óÓÒ(Yaw)
+	//å¤„ç†è§†è§’å·¦å³(Yaw)
 	void onTurnUp(float Value);
-	//´¦ÀíPitchº¯Êı
+	//å¤„ç†Pitchå‡½æ•°
 	void onLookUp(float Value);
-	//´¦Àípos×óÓÒ
+	//å¤„ç†poså·¦å³
 	void onMoveLOR(float Value);
+	//å¤„ç†æ‹¾å–ç‰©å“
+	void OnPickupItem();
 };

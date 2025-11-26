@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Animation/AnimInstance.h"
+#include "Characters/CharacterHandState.h"
 #include "OverlxrdAnimInstance.generated.h"
 
 /**
@@ -13,9 +14,12 @@ UCLASS()
 class LEARNING_API UOverlxrdAnimInstance : public UAnimInstance
 {
 	GENERATED_BODY()
-	//¼´Ê¹ÓÎÏ·Ã»ÓĞÔËĞĞ£¬¶¯»­ÊµÀıÒ²»á¸üĞÂ
+	//å³ä½¿æ¸¸æˆæ²¡æœ‰è¿è¡Œï¼ŒåŠ¨ç”»å®ä¾‹ä¹Ÿä¼šæ›´æ–°
 public:
-	//³õÊ¼»¯¶¯»­ÊµÀıÊ±µ÷ÓÃµÄº¯Êı
+	UFUNCTION(BlueprintCallable, Category = Movement)
+	ECharacterState GetCurrentState();
+	FORCEINLINE void SetCharacterState(ECharacterState NewState) { CharacterState = NewState; }
+	//åˆå§‹åŒ–åŠ¨ç”»å®ä¾‹æ—¶è°ƒç”¨çš„å‡½æ•°
 	virtual void NativeInitializeAnimation() override;
 	virtual void NativeUpdateAnimation(float DeltaSeconds) override;
 protected:
@@ -27,4 +31,7 @@ protected:
 	float GroundSpeed;
 	UPROPERTY(BlueprintReadWrite, Category = Movement)
 	bool IsFalling;
+
+	UPROPERTY(BlueprintReadWrite, Category = Movement)
+	ECharacterState CharacterState;
 };

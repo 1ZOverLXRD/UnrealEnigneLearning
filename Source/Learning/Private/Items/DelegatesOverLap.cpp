@@ -6,6 +6,8 @@
 #include "Components/SphereComponent.h"
 #include "Components/StaticMeshComponent.h"
 
+#include "DrawDebugHelpers.h"
+
 // Sets default values
 ADelegatesOverLap::ADelegatesOverLap()
 {
@@ -18,10 +20,10 @@ ADelegatesOverLap::ADelegatesOverLap()
 	Sphere->SetupAttachment(GetRootComponent());
 	/*
 	* 
-	DECLARE_DYNAMIC_MULTICAST_SPARSE_DELEGATE_SixParams( Õâ¸öÎ¯ÍÐÇ©ÃûµÄÃû³ÆÆäËû´úÂë½«Ê¹ÓÃÕâ¸öÃû³ÆÀ´ÉùÃ÷Î¯ÍÐÊµÀý¡£
-	, Ö¸Ã÷Õâ¸öÎ¯ÍÐÊÇ×÷Îª UPrimitiveComponent ÀàµÄ³ÉÔ±Ê¹ÓÃµÄ
-	, ÔÚÀ¶Í¼ÖÐµÄÃû×Ö, 
-	ÒÔÏÂÈ«Îª²ÎÊý
+	DECLARE_DYNAMIC_MULTICAST_SPARSE_DELEGATE_SixParams( è¿™ä¸ªå§”æ‰˜ç­¾åçš„åç§°å…¶ä»–ä»£ç å°†ä½¿ç”¨è¿™ä¸ªåç§°æ¥å£°æ˜Žå§”æ‰˜å®žä¾‹ã€‚
+	, æŒ‡æ˜Žè¿™ä¸ªå§”æ‰˜æ˜¯ä½œä¸º UPrimitiveComponent ç±»çš„æˆå‘˜ä½¿ç”¨çš„
+	, åœ¨è“å›¾ä¸­çš„åå­—, 
+	ä»¥ä¸‹å…¨ä¸ºå‚æ•°
 	UPrimitiveComponent*, OverlappedComponent, AActor*, OtherActor, UPrimitiveComponent*, OtherComp, int32, OtherBodyIndex, bool, bFromSweep, const FHitResult &, SweepResult);
 	*/
 }
@@ -30,15 +32,16 @@ ADelegatesOverLap::ADelegatesOverLap()
 void ADelegatesOverLap::BeginPlay()
 {
 	Super::BeginPlay();
-	//°ó¶¨Î¯ÍÐÊÂ¼þ ÊÂ¼þ.AddDynamic
+	//ç»‘å®šå§”æ‰˜äº‹ä»¶ äº‹ä»¶.AddDynamic
 	Sphere->OnComponentBeginOverlap.AddDynamic(this, &ADelegatesOverLap::OnSphereOverlapBegin);
+	Sphere->OnComponentEndOverlap.AddDynamic(this, &ADelegatesOverLap::OnComponentEndOverlap);
 }
 
 // Called every frame
 void ADelegatesOverLap::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	DrawDebugSphere(GetWorld(), Sphere->GetComponentLocation(), 36, 12, FColor::Green);
 }
 
 void ADelegatesOverLap::OnSphereOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -47,5 +50,13 @@ void ADelegatesOverLap::OnSphereOverlapBegin(UPrimitiveComponent* OverlappedComp
 		, *OtherActor->GetName(), *OtherComp->GetName()
 		, OtherBodyIndex, (bFromSweep ? TEXT("YES") : TEXT("No")));
 	UE_LOG(LogTemp, Warning,TEXT("%s"),*text);
+}
+
+void ADelegatesOverLap::OnComponentEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+	FString text = FString::Printf(TEXT("EndOverLapComponent:%s OA:%s OC:%s OBI:%d "), *OverlappedComponent->GetName()
+		, *OtherActor->GetName(), *OtherComp->GetName()
+		, OtherBodyIndex);
+	UE_LOG(LogTemp, Warning, TEXT("%s"), *text);
 }
 

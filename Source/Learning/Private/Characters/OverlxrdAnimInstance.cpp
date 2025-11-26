@@ -6,10 +6,15 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 
+ECharacterState UOverlxrdAnimInstance::GetCurrentState()
+{
+	return OverLxrdCharacter->GetCharacterState();
+}
+
 void UOverlxrdAnimInstance::NativeInitializeAnimation()
 {
 	Super::NativeInitializeAnimation();
-	OverLxrdCharacter=Cast<AOverLxrdCharacter>(TryGetPawnOwner());//尝试获取拥有该动画实例的Pawn
+	OverLxrdCharacter=Cast<AOverLxrdCharacter>(TryGetPawnOwner());//灏濊瘯鑾峰彇鎷ユ湁璇ュ姩鐢诲疄渚嬬殑Pawn
 	if (OverLxrdCharacter) {
 		OverLxrdMovementComponent = OverLxrdCharacter->GetCharacterMovement();
 	}
@@ -18,7 +23,7 @@ void UOverlxrdAnimInstance::NativeInitializeAnimation()
 void UOverlxrdAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 {
 	Super::NativeUpdateAnimation(DeltaSeconds);
-	//实时跟新Globalspeed
+	//瀹炴椂璺熸柊Globalspeed
 	if (OverLxrdMovementComponent) {
 		GroundSpeed = UKismetMathLibrary::VSizeXY(OverLxrdMovementComponent->Velocity);
 		IsFalling=OverLxrdMovementComponent->IsFalling();

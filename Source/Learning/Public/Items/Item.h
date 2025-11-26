@@ -6,14 +6,14 @@
 #include "GameFramework/Actor.h"
 #include "Item.generated.h"
 
-//Ê¹ÓÃUCLASSºêºó¿ÉÒÔÈÃUnrealÒıÇæÊ¶±ğÕâ¸öÀà£¬²¢Ìá¹©·´ÉäºÍĞòÁĞ»¯µÈ¹¦ÄÜ
+//ä½¿ç”¨UCLASSå®åå¯ä»¥è®©Unrealå¼•æ“è¯†åˆ«è¿™ä¸ªç±»ï¼Œå¹¶æä¾›åå°„å’Œåºåˆ—åŒ–ç­‰åŠŸèƒ½
 UCLASS()
 class LEARNING_API AItem : public AActor
 {
-	//Ëß±àÒëÆ÷°Ñ Unreal Header Tool (UHT) ÎªÕâ¸öÀàÉú³ÉµÄÒş²Ø´úÂë²åÈëµ½ÕâÀï¡£
+	//è¯‰ç¼–è¯‘å™¨æŠŠ Unreal Header Tool (UHT) ä¸ºè¿™ä¸ªç±»ç”Ÿæˆçš„éšè—ä»£ç æ’å…¥åˆ°è¿™é‡Œã€‚
 	GENERATED_BODY()
 private:
-	double currentYaw = 5.0f; // ×ÔĞı×ª½Ç¶È (¶È/Ãë)
+	double currentYaw = 5.0f; // è‡ªæ—‹è½¬è§’åº¦ (åº¦/ç§’)
 	void selfRatate(float DeltaTime);
 public:	
 	// Sets default values for this actor's properties
